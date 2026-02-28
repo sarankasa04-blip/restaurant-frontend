@@ -83,7 +83,7 @@
       };
 
       try {
-        const response = await fetch("https://restaurant-api-z328.onrender.com/api/reservations", {
+        const response = await fetch("https://restaurant-api-z328.onrender.com/reservations", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -91,15 +91,20 @@
           body: JSON.stringify(reservation)
         });
 
+        const data = await response.json();
+
         if (response.ok) {
-          message.innerText = "Reservation successful!";
+          message.innerText = "Reservation successful! Confirmation sent to email.";
+          message.style.color = "lightgreen";
           form.reset();
         } else {
-          message.innerText = "Failed to book reservation.";
+          message.innerText = data.message || "Failed to book reservation.";
+          message.style.color = "red";
         }
 
       } catch (error) {
         message.innerText = "Server error. Try again.";
+        message.style.color = "red";
       }
     });
   </script>
